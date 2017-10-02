@@ -69,7 +69,6 @@ public class SendMessageActivity extends AppCompatActivity {
         Log.d(TAG, "SendMessage: OnResume()");
     }
 
-
     /*
         class MyListener implements View.OnClickListener{
             public void onClick(){
