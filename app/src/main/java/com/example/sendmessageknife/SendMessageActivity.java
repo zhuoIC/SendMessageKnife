@@ -10,6 +10,10 @@ import android.widget.EditText;
 
 import com.example.sendmessageknife.pojo.Message;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Esta clase envía un mensaje de un usuario a otro
  * @author Nicolás Hernández Jiménez
@@ -23,35 +27,22 @@ import com.example.sendmessageknife.pojo.Message;
 
 public class SendMessageActivity extends AppCompatActivity {
 
-    private com.example.sendmessageknife.pojo.Message mensaje;
-    private EditText edtMessage;
-    private EditText edtUser;
-    private Button btnButton;
+    @BindView(R.id.edtMessage)
+    EditText edtMessage;
+    @BindView(R.id.edtUser)
+    EditText edtUser;
+    @BindView(R.id.btnOK)
+    Button btnButton;
+
     private static final String TAG = "com.example.sendmessage";
+    private com.example.sendmessageknife.pojo.Message mensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
-        edtMessage = (EditText) findViewById(R.id.edtMessage);
-        edtUser = (EditText) findViewById(R.id.edtUser);
-        btnButton = (Button) findViewById(R.id.btnOK);
-        // 1. Registrar un listener al evento OnClickListener
-        btnButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //1. Recoger el mensaje
-                mensaje = new Message(edtMessage.getText().toString(), edtUser.getText().toString());
-                //2. Crear un objeto Bundle y añadir el mensaje
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("message", mensaje);
-                //3. Crear un objeto Intent
-                Intent intent = new Intent(SendMessageActivity.this, ViewMessageActivity.class);
-                //4. Añadir el Bundle al Intent
-                intent.putExtras(bundle);
-                //5. Iniciar la Activity ViewMessage
-                startActivity(intent);
-            }
-        });
+        //Vincular el ide de las vistas en el XMl con las clases View
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -86,15 +77,14 @@ public class SendMessageActivity extends AppCompatActivity {
             }
         }*/
 
-
-    /*public void getOnClick(View view) {
+    @OnClick(R.id.btnOK)
+    public void getOnClick(View view) {
         switch (view.getId()) {
             case R.id.btnOK:
                 //1. Recoger el mensaje
                 //2. Crear un objeto Bundle y añadir el mensaje
                 Bundle bundle = new Bundle();
-                bundle.putString("message", edtMessage.getText().toString());
-                bundle.putString("user", edtUser.getText().toString());
+                bundle.putSerializable("message", new Message(edtMessage.getText().toString(), edtUser.getText().toString()));
                 //3. Crear un objeto Intent
                 Intent intent = new Intent(SendMessageActivity.this, ViewMessageActivity.class);
                 //4. Añadir el Bundle al Intent
@@ -102,6 +92,6 @@ public class SendMessageActivity extends AppCompatActivity {
                 //5. Iniciar la Activity ViewMessage
                 startActivity(intent);
                 break;
-        }*/
-
+        }
+    }
 }
